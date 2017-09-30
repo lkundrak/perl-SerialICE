@@ -1,0 +1,32 @@
+Various Perl scripts to help analyze vendor BIOS by tracing its execution in a simulated environment.
+
+Test trace replay:
+==================
+
+perl -Ilib bin/replay-server.pl traces/hp2133.log perl -Ilib bin/replay-client.pl {} traces/hp2133.log
+
+Get memory reg dump:
+====================
+
+cd ..
+perl -Iperl-SerialICE/lib perl-SerialICE/bin/hp2133-mem.pl 	\
+	../../qemu-0.15.x/i386-softmmu/qemu			\
+	-M serialice						\
+	-serialice {}						\
+	-hda /dev/zero						\
+	-bios ~/hp/bios/68VGU.BIN				\
+	>perl-SerialICE/traces/hp2133-mem.txt
+egrep -v ': .. (.. )(\1){13}' perl/traces/hp2133-mem.txt \
+	>perl-SerialICE/traces/hp2133-notes.txt
+
+Simulate a machine:
+===================
+
+perl -Iperl-SerialICE/lib perl-SerialICE/bin/hp2133-emu.pl	\
+	../../qemu-0.15.x/i386-softmmu/qemu			\
+	-M serialice						\
+	-serialice {}						\
+	-hda /dev/zero						\
+	-bios ~/hp/bios/68VGU.BIN				\
+	>perl-SerialICE/traces/hp2133-sim.txt
+lua replay <perl-SerialICE/traces/hp2133-sim.txt

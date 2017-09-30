@@ -1,0 +1,47 @@
+    ┌─ (default)
+    │  ┌─ 1 Rank 4 Bank
+    │  │  ┌─ 1 Rank 4 Bank + 1 Rank 4 Bank
+    │  │  │  ┌─ 1 Rank 4 Bank + 1 Rank 8 Bank
+    │  │  │  │  ┌─ 1 Rank 8 Bank + 1 Rank 8 Bank
+    │  │  │  │  │  ┌─ 1 Rank 8 Bank
+    │  │  │  │  │  │  ┌─ 2 Rank 4 Bank
+    │  │  │  │  │  │  │  ┌─ 2 Rank 4 Bank + 2 Rank 4 Bank
+    │  │  │  │  │  │  │  │  ┌─ 2 Rank 4 Bank + 2 Rank 8 Bank
+    │  │  │  │  │  │  │  │  │  ┌─ 2 Rank 8 Bank + 2 Rank 8 Bank
+    │  │  │  │  │  │  │  │  │  │  ┌─ 2 Rank 8 Bank
+    │  │  │  │  │  │  │  │  │  │  │  ┌─ 1 Rank 4 Bank + 2 Rank 4 Bank
+    │  │  │  │  │  │  │  │  │  │  │  │  ┌─ 1 Rank 4 Bank + 2 Rank 8 Bank
+    │  │  │  │  │  │  │  │  │  │  │  │  │  ┌─ 1 Rank 8 Bank + 2 Rank 8 Bank
+    │  │  │  │  │  │  │  │  │  │  │  │  │  │  ┌─ 1 Rank 8 Bank + 2 Rank 4 Bank
+    │  │  │  │  │  │  │  │  │  │  │  │  │  │  │
+69: 82 8a 8a 8a ca ca 8a 8a 8a 8a 8a 8a 8a 8a 8a │ DDR2 Page Control 2
+9c: -- -- 02 02 02 -- 01 0a 0a 0a 01 02 02 02 02 │ ODT Lookup Table - Channel A
+d5: -- aa a0 a0 a0 aa aa a0 a0 a0 aa a0 a0 a0 a0 │ DQ / DQS Burst Function and ODT Range Select
+d6: 80 aa a8 a8 a8 aa aa a8 a8 a8 aa a8 a8 a8 a8 │ DCLK / SCMD / CS Driving Select
+e8: -- 88 88 88 88 88 88 dd dd dd 88 dd dd dd dd │ DRAM Driving - Group SCMDA/MAA
+ec: -- 8c 8c 8c 8c 8c 8c 88 88 88 8c 88 88 88 88 │ Channel-A DQS / DQ CKG Output Duty Cycle Control
+
+69: 82 8a 8a 8a ca ca 8a 8a 8a 8a 8a 8a 8a 8a 8a │ DDR2 Page Control 2
+0xca if everything is 1rank 8bank, otherwise 0x8a???
+
+9c: -- -- 02 02 02 -- 01 0a 0a 0a 01 02 02 02 02 │ ODT Lookup Table - Channel A
+dnt  if one rank in one slot
+0x01 if two ranks in one slot
+0x02 if two or three ranks in two slots
+0x0a if four ranks in two slots
+
+d5: -- aa a0 a0 a0 aa aa a0 a0 a0 aa a0 a0 a0 a0 │ DQ / DQS Burst Function and ODT Range Select
+0xaa if one slot populated
+0xa0 if two slots populated
+
+d6: 80 aa a8 a8 a8 aa aa a8 a8 a8 aa a8 a8 a8 a8 │ DCLK / SCMD / CS Driving Select
+0xaa if one slot populated
+0xa8 if two slots populated
+
+e8: -- 88 88 88 88 88 88 dd dd dd 88 dd dd dd dd │ DRAM Driving - Group SCMDA/MAA
+0x88 if one or two ranks
+0xdd if three or four ranks
+
+ec: -- 8c 8c 8c 8c 8c 8c 88 88 88 8c 88 88 88 88 │ Channel-A DQS / DQ CKG Output Duty Cycle Control
+0x8c if one or two ranks
+0x88 if three or four ranks
